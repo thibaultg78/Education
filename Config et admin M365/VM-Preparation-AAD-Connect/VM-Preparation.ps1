@@ -50,9 +50,3 @@ New-StarWarsADGroup -Path 'OU=Groups,OU=SDV,DC=SDV,DC=LOCAL'
 # Adding people in the groups
 Add-StarWarsADUserToAdGroup
 
-
-
-#
-
-
-
