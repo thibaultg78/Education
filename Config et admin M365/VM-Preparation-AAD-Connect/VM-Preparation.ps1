@@ -22,11 +22,37 @@ $Secure_String_Pwd = ConvertTo-SecureString "SDVPassword123456!" -AsPlainText -F
 Install-ADDSForest -DomainName "sdv.local" -DomainNetBiosName "SDV" -InstallDns:$true `
 -NoRebootOnCompletion:$true -SafeModeAdministratorPassword $Secure_String_Pwd
 
-# You main Domain ADDS account will be the Local one you've used previously
-# However, it will be now an Active Directory account - you must connect with : SDV\user and your password
-
 # Restarting the server
 Restart-Computer
+
+# You main Domain ADDS account will be the Local one you've used previously
+# However, it will be now an Active Directory account - you must connect with : SDV\user and the same password
+
+# Creation of new Organizational Unit 
+New-ADOrganizationalUnit "SDV"
+
+# Creation of the OU arborescence
+New-ADOrganizationalUnit -Name "Users" -Path "OU=SDV,DC=SDV,DC=LOCAL"
+New-ADOrganizationalUnit -Name "Groups" -Path "OU=SDV,DC=SDV,DC=LOCAL"
+New-ADOrganizationalUnit -Name "Computers" -Path "OU=SDV,DC=SDV,DC=LOCAL"
+New-ADOrganizationalUnit -Name "Servers" -Path "OU=SDV,DC=SDV,DC=LOCAL"
+
+# Installing StarWars scripts
+# You will have to answer Y (Yes) to several questions
+Install-Module StarWars -Confirm -SkipPublisherCheck
+
+# Users creation
+New-StarWarsADUser -Path 'OU=Users,OU=SDV,DC=SDV,DC=LOCAL'
+
+# Groups creation
+New-StarWarsADGroup -Path 'OU=Groups,OU=SDV,DC=SDV,DC=LOCAL'
+
+# Adding people in the groups
+Add-StarWarsADUserToAdGroup
+
+
+
+#
 
 
 
