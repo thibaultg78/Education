@@ -1,4 +1,5 @@
 # Education
+
 Scripts et snippets for School activities
 
 Giving courses in several schools such as:
@@ -7,6 +8,6 @@ Giving courses in several schools such as:
 
 - ESGI (Nantes)
 
-Contact:
+# Contact:
 
-- akril.net/contact
+- [akril.net/contact](https://akril.net/contact)
