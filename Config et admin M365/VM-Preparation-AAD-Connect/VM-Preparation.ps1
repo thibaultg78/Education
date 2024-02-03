@@ -1,3 +1,9 @@
+#####################################################################
+# Configuration & Administration Microsoft 365 / Offce 365
+# School: SUP DE VINCI
+# Group: ASI 3-24 SRC ISI NANTES 
+#####################################################################
+
 # Connect in RDP to the Windows Server
 # Use the Local Administrator and password account provided by the teacher
 # Open Windows PowerShell prompt with Admin privileges and execute the following snippets
