@@ -3,6 +3,10 @@ Scripts et snippets for School activities
 
 Giving courses in several schools such as:
 
-SUP DE VINCI (Rennes, Bordeaux, Nantes)
+- SUP DE VINCI (Rennes, Bordeaux, Nantes)
 
-ESGI (Nantes)
+- ESGI (Nantes)
+
+Contact:
+
+- akril.net/contact
