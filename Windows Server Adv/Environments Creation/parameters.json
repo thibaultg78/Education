@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_SDV_Nantes_1_VM_A_name": {
+            "value": null
+        },
+        "virtualMachines_SDV_Nantes_1_VM_B_name": {
+            "value": null
+        },
+        "virtualNetworks_SDV_Nantes_1_VM_vnet_name": {
+            "value": null
+        },
+        "publicIPAddresses_SDV_Nantes_1_VM_B_ip_name": {
+            "value": null
+        },
+        "publicIPAddresses_SDV_Nantes_1_VM_A_PIP_name": {
+            "value": null
+        },
+        "networkInterfaces_sdv_nantes_1_vm_a18_z1_name": {
+            "value": null
+        },
+        "networkInterfaces_sdv_nantes_1_vm_b707_z1_name": {
+            "value": null
+        },
+        "networkSecurityGroups_SDV_Nantes_1_VM_A_nsg_name": {
+            "value": null
+        },
+        "networkSecurityGroups_SDV_Nantes_1_VM_B_nsg_name": {
+            "value": null
+        }
+    }
+}
