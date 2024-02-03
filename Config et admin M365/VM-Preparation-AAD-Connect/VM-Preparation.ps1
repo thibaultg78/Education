@@ -24,10 +24,13 @@ Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
 
 # Creating the new Active Directory Forest/Domain
 # You will need to confirm the installation
-$Secure_String_Pwd = ConvertTo-SecureString "SDVPassword123456!" -AsPlainText -Force
-Read-Host "STOP Modify the ligne 23 and comment this line"
 
-$DomainNAme = "sdv01.local"
+# Restoration Password: Mandatory but not needed for us
+$Secure_String_Pwd = ConvertTo-SecureString "SDVPassword123456!" -AsPlainText -Force
+
+# Naming your ADDS Forest/Domain depending on your group number
+$GroupNumber = Read-Host "What is your group number?"
+$DomainName = "SDV" + $GroupNumber + ".local"
 Install-ADDSForest -DomainName $DomainNAme -DomainNetBiosName "SDV" -InstallDns:$true `
 -NoRebootOnCompletion:$true -SafeModeAdministratorPassword $Secure_String_Pwd
 
