@@ -1,4 +1,3 @@
-
 #####################################################################
 # Create Labs VM
 # School: SUP DE VINCI
@@ -138,3 +137,7 @@ Start-AzVM -ResourceGroupName "Group010" -Name "SDVVMGroup10"
 foreach ($rsg in (Get-AzResourceGroup)) {
     Get-AzPublicIpAddress -ResourceGroupName $rsg.ResourceGroupName
 }
+
+#####################################################################
+# End of Script
+#####################################################################
