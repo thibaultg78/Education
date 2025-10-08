@@ -1,0 +1,36 @@
+# Fichiers macOS à ignorer
+.DS_Store
+._*
+__MACOSX
+
+# Dossiers node_modules (si tu utilises Node.js)
+node_modules/
+
+# Fichiers de log
+*.log
+npm-debug.log*
+
+# Dossiers de build/dist
+dist/
+build/
+
+# Fichiers d'environnement (contiennent souvent des mots de passe)
+.env
+.env.local
+
+# Dossiers IDE
+.vscode/settings.json
+.idea/
+
+# Fichiers temporaires
+*.tmp
+*.temp
+*.swp
+*~
+
+# Terraform
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
