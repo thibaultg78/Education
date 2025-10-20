@@ -8,6 +8,7 @@
 $params = @{
 	accountEnabled = $false
 }
+
 Update-MgUser -UserId "user01@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user02@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user03@1xyj7c.onmicrosoft.com" -BodyParameter $params
@@ -33,7 +34,6 @@ Update-MgUser -UserId "user22@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user23@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user24@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user25@1xyj7c.onmicrosoft.com" -BodyParameter $params
-
 
 # Désactiver tous les comptes utilisateurs en une fois
 Get-MgUser -Filter "userPrincipalName startswith 'student'" | ForEach-Object {

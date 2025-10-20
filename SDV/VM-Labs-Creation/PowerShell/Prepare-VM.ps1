@@ -29,10 +29,13 @@ Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
 $Secure_String_Pwd = ConvertTo-SecureString "SDVPassword123456!" -AsPlainText -Force
 
 # Naming your ADDS Forest/Domain depending on your group number
-$GroupNumber = Read-Host "What is your group number?"
-$DomainName = "SDV" + $GroupNumber + ".local"
+
+#$GroupNumber = Read-Host "What is your group number?"
+#$DomainName = "SDV" + $GroupNumber + ".local"
+
+$DomainName = "SDV.local"
 Install-ADDSForest -DomainName $DomainNAme -DomainNetBiosName "SDV" -InstallDns:$true `
--NoRebootOnCompletion:$true -SafeModeAdministratorPassword $Secure_String_Pwd
+    -NoRebootOnCompletion:$true -SafeModeAdministratorPassword $Secure_String_Pwd
 
 # Restarting the server
 Restart-Computer
