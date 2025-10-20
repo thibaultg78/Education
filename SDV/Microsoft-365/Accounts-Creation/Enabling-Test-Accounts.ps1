@@ -1,7 +1,12 @@
+<# 
+.SYNOPSIS
+    Snippet to ENABLE all the SDV Entra ID user accounts.
+#>
+
 #Connect-MgGraph -Scopes "User.ReadWrite.All"
 
 $params = @{
-	accountEnabled = $true
+    accountEnabled = $true
 }
 Update-MgUser -UserId "user01@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user02@1xyj7c.onmicrosoft.com" -BodyParameter $params
@@ -28,3 +33,9 @@ Update-MgUser -UserId "user22@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user23@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user24@1xyj7c.onmicrosoft.com" -BodyParameter $params
 Update-MgUser -UserId "user25@1xyj7c.onmicrosoft.com" -BodyParameter $params
+
+
+# Désactiver tous les comptes utilisateurs en une fois
+Get-MgUser -Filter "userPrincipalName startswith 'student'" | ForEach-Object {
+    Update-MgUser -UserId $_.Id -AccountEnabled $false
+}
