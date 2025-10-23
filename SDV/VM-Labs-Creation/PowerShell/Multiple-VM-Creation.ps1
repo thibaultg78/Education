@@ -54,7 +54,8 @@ $VMs = @(
     @{ Name = "SDV-VM08"; VNet = "SDV-VM08-vnet"; Subnet = "SDV-VM08-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM09"; VNet = "SDV-VM09-vnet"; Subnet = "SDV-VM09-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM10"; VNet = "SDV-VM10-vnet"; Subnet = "SDV-VM10-subnet"; PrivateIP = "10.0.0.4" },
-    @{ Name = "SDV-VM11"; VNet = "SDV-VM11-vnet"; Subnet = "SDV-VM11-subnet"; PrivateIP = "10.0.0.4" }
+    @{ Name = "SDV-VM11"; VNet = "SDV-VM11-vnet"; Subnet = "SDV-VM11-subnet"; PrivateIP = "10.0.0.4" },
+    @{ Name = "SDV-VM12"; VNet = "SDV-VM12-vnet"; Subnet = "SDV-VM12-subnet"; PrivateIP = "10.0.0.4" }
 )
 
 # Windows Server configuration
