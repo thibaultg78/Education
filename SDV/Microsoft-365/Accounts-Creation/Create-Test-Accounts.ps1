@@ -30,7 +30,7 @@
 Clear-Host
 
 # Chemin vers le fichier CSV
-$csvPath = "/Users/thibault/GitHub/Education/SDV/Microsoft-365/Accounts-Creation/Import_User_Sample.csv"
+$csvPath = "/home/codespace/Education/SDV/Microsoft-365/Accounts-Creation/Import_User_Sample.csv"
 
 # Import du fichier CSV
 $users = Import-Csv -Path $csvPath
