@@ -37,7 +37,7 @@ $users = Import-Csv -Path $csvPath
 
 # Mot de passe temporaire pour tous les comptes
 $passwordProfile = @{
-    Password                      = "SDVPasswordTemp123!"
+    Password                      = $env:SDV_O365_ENTRAID_PASSWORD
     ForceChangePasswordNextSignIn = $false
 }
 
