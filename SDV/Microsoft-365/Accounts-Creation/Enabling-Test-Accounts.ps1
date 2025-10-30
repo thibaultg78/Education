@@ -18,3 +18,15 @@ $params = @{
 Get-MgUser -All -Property UserPrincipalName, AccountEnabled  `
     | Where-Object { $_.UserPrincipalName -like 'student*' } `
     | Select-Object UserPrincipalName, AccountEnabled
+
+# Update password for all student accounts
+$passwordParams = @{
+    passwordProfile = @{
+        password = "SDVPasswordTemp123!"
+        forceChangePasswordNextSignIn = $false
+    }
+}
+1..25 | ForEach-Object {
+    $userId = "student{0:D2}@1xyj7c.onmicrosoft.com" -f $_
+    Update-MgUser -UserId $userId -BodyParameter $passwordParams
+}
