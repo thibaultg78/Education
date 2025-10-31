@@ -4,7 +4,7 @@
 #>
 
 # Connect to Microsoft Graph (if not already connected)
-Connect-MgGraph -Scopes "User.ReadWrite.All"
+#Connect-MgGraph -Scopes "User.ReadWrite.All"
 
 # List of UserPrincipalNames to KEEP (DO NOT DELETE)
 $comptesAConserver = @(

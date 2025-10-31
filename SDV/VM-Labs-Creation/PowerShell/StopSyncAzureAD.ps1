@@ -8,7 +8,7 @@ Install-Module Microsoft.Graph -Force
 Install-Module Microsoft.Graph.Beta -AllowClobber -Force 
 
 # Connect With Hybrid Identity Administrator Account
-Connect-MgGraph -scopes "Organization.ReadWrite.All,Directory.ReadWrite.All" 
+Connect-MgGraph -scopes "Organization.ReadWrite.All,Directory.ReadWrite.All"
 
 # Verify the current status of the DirSync Type
 Get-MgOrganization | Select OnPremisesSyncEnabled 

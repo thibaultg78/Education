@@ -31,7 +31,7 @@
 
 
 # Connect to Azure in PowerShell
-#Connect-AzAccount
+#Connect-AzAccount -UseDeviceAuthentication
 #Select-AzSubscription -SubscriptionId "6b6a9c6b-f4db-4532-a846-1fcfcf6e4b3f" -TenantId "2e2e6db7-6a76-4504-90a7-ec7e7ad01939" # sub-idf-01
 
 # Cleaning
@@ -43,8 +43,8 @@ $Location = "West Europe"
 
 # VM Configuration
 $VMs = @(
-    <#@{ Name = "SDV-VM00"; VNet = "SDV-VM00-vnet"; Subnet = "SDV-VM00-subnet"; PrivateIP = "10.0.0.4" },
-    @{ Name = "SDV-VM01"; VNet = "SDV-VM01-vnet"; Subnet = "SDV-VM01-subnet"; PrivateIP = "10.0.0.4" }#>
+    <#@{ Name = "SDV-VM00"; VNet = "SDV-VM00-vnet"; Subnet = "SDV-VM00-subnet"; PrivateIP = "10.0.0.4" }#>
+    @{ Name = "SDV-VM01"; VNet = "SDV-VM01-vnet"; Subnet = "SDV-VM01-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM02"; VNet = "SDV-VM02-vnet"; Subnet = "SDV-VM02-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM03"; VNet = "SDV-VM03-vnet"; Subnet = "SDV-VM03-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM04"; VNet = "SDV-VM04-vnet"; Subnet = "SDV-VM04-subnet"; PrivateIP = "10.0.0.4" },

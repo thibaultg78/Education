@@ -7,7 +7,6 @@
 
 Install-Module -Name PnP.PowerShell
 
-
 Import-Module Microsoft.Online.SharePoint.PowerShell
 
 Connect-SPOService -Url https://1xyj7c-admin.sharepoint.com
