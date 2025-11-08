@@ -68,3 +68,5 @@ if ($confirmation -eq "YES") {
 else {
     Write-Host "`nOperation cancelled. No accounts were deleted." -ForegroundColor Yellow
 }
+
+exit 0 # Exit with code 0 to avoid breaking CI/CD pipelines
