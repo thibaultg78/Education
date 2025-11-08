@@ -1,88 +1,118 @@
-<#
+<# 
 .SYNOPSIS
     Test user account creation script for Microsoft Entra ID for SDV Students for M365 Labs.
-
 .DESCRIPTION
-    Accounts will be created in a disabled state by default.
-
-.EXAMPLE
-    .\Create-Test-Accounts.ps1
-    Runs the script with default parameters
-
-.NOTES
-    File Name     : Create-Test-Accounts.ps1
-    Author        : Thibault Gibard
-    Date          : 2025-10-20
-    Version       : 1.0
-    
-    Prerequisites:
-    - Microsoft.Graph.Users module installed
-    - Appropriate permissions in Entra ID
-    - Authenticated connection to Microsoft Graph
+    Creates 25 student accounts (student01 to student25) with Service Principal authentication.
 #>
-
-# Installation du module si nécessaire (décommenter si besoin)
-# Install-Module Microsoft.Graph -Scope CurrentUser
-
-# Connexion à Microsoft Graph avec les permissions nécessaires
-#Connect-MgGraph -Scopes "User.ReadWrite.All"
 
 Clear-Host
 
-# Chemin vers le fichier CSV
-$csvPath = "/home/codespace/Education/SDV/Microsoft-365/Accounts-Creation/Import_User_Sample.csv"
+# Verify required environment variables
+$requiredVars = @('AZURE_TENANT_ID', 'AZURE_CLIENT_ID', 'AZURE_CLIENT_SECRET', 'SDV_O365_ENTRAID_PASSWORD')
+$missingVars = @()
 
-# Import du fichier CSV
-$users = Import-Csv -Path $csvPath
+foreach ($var in $requiredVars) {
+    if (-not (Get-Item "env:$var" -ErrorAction SilentlyContinue)) {
+        $missingVars += $var
+    }
+}
 
-# Mot de passe temporaire pour tous les comptes
+if ($missingVars.Count -gt 0) {
+    Write-Host "ERROR: Missing environment variables:" -ForegroundColor Red
+    $missingVars | ForEach-Object { Write-Host "  - $_" -ForegroundColor Red }
+    exit 1
+}
+
+# Install/Import modules
+if (-not (Get-Module -ListAvailable -Name Microsoft.Graph.Authentication)) {
+    Write-Host "Installing Microsoft.Graph.Authentication module..." -ForegroundColor Yellow
+    Install-Module Microsoft.Graph.Authentication -Scope CurrentUser -Force
+}
+
+if (-not (Get-Module -ListAvailable -Name Microsoft.Graph.Users)) {
+    Write-Host "Installing Microsoft.Graph.Users module..." -ForegroundColor Yellow
+    Install-Module Microsoft.Graph.Users -Scope CurrentUser -Force
+}
+
+Import-Module Microsoft.Graph.Authentication
+Import-Module Microsoft.Graph.Users
+
+# Connect with Service Principal
+Write-Host "Connecting to Microsoft Graph with Service Principal..." -ForegroundColor Cyan
+try {
+    $secureSecret = ConvertTo-SecureString $env:AZURE_CLIENT_SECRET -AsPlainText -Force
+    $credential = New-Object System.Management.Automation.PSCredential($env:AZURE_CLIENT_ID, $secureSecret)
+    
+    Connect-MgGraph -TenantId $env:AZURE_TENANT_ID -ClientSecretCredential $credential -NoWelcome
+    
+    # Verify connection
+    $context = Get-MgContext
+    Write-Host " ✅ Connected successfully!" -ForegroundColor Green
+    Write-Host "  Tenant: $($context.TenantId)" -ForegroundColor Gray
+    Write-Host "  App: $($context.ClientId)" -ForegroundColor Gray
+}
+catch {
+    Write-Host "CONNECTION ERROR: $($_.Exception.Message)" -ForegroundColor Red
+    exit 1
+}
+
+# Basic configuration
+$domain = "1xyj7c.onmicrosoft.com"
+$numberOfStudents = 25
+$alternateEmail = "formateur_Thibault.gibard@supdevinci-edu.fr"
+
+# Temporary password for all accounts
 $passwordProfile = @{
     Password                      = $env:SDV_O365_ENTRAID_PASSWORD
     ForceChangePasswordNextSignIn = $false
 }
 
-# Création des utilisateurs
-foreach ($user in $users) {
+Write-Host "`nCreating $numberOfStudents student accounts..." -ForegroundColor Cyan
+
+# User creation
+$successCount = 0
+$errorCount = 0
+
+for ($i = 1; $i -le $numberOfStudents; $i++) {
+    $studentNumber = "student{0:D2}" -f $i
+    $upn = "$studentNumber@$domain"
+    
     try {
-        # Préparation des paramètres de l'utilisateur
+        # User parameter preparation
         $userParams = @{
-            AccountEnabled    = $false  # Compte désactivé
-            DisplayName       = $user.'Display name'
-            MailNickname      = $user.Username.Split('@')[0]
-            UserPrincipalName = $user.Username
+            AccountEnabled    = $false
+            DisplayName       = $studentNumber
+            MailNickname      = $studentNumber
+            UserPrincipalName = $upn
             PasswordProfile   = $passwordProfile
-            GivenName         = $user.'First name'
-            Surname           = $user.'Last name'
-            JobTitle          = $user.'Job title'
-            Department        = $user.Department
-            OfficeLocation    = $user.'Office number'
-            BusinessPhones    = @($user.'Office phone')
-            MobilePhone       = $user.'Mobile phone'
-            FaxNumber         = $user.Fax
-            StreetAddress     = $user.Address
-            City              = $user.City
-            State             = $user.'State or province'
-            PostalCode        = $user.'ZIP or postal code'
-            Country           = $user.'Country or region'
-            UsageLocation     = "FR"  # Définir selon votre pays
+            GivenName         = $studentNumber
+            Surname           = $studentNumber
+            JobTitle          = "IT Student"
+            Department        = "SDV Paris"
+            OfficeLocation    = "Paris"
+            BusinessPhones    = @("123-555-1211")
+            MobilePhone       = "123-555-6641"
+            FaxNumber         = "123-555-9821"
+            OtherMails        = @($alternateEmail)
+            StreetAddress     = "1 Microsoft way"
+            City              = "Redmond"
+            State             = "Wa"
+            PostalCode        = "98052"
+            Country           = "United States"
+            UsageLocation     = "FR"
         }
 
-        # Ajout de l'email alternatif si présent
-        if ($user.'Alternate email address') {
-            $userParams.OtherMails = @($user.'Alternate email address')
-        }
-
-        # Création de l'utilisateur
-        New-MgUser @userParams
+        # User creation
+        New-MgUser @userParams | Out-Null
         
-        Write-Host "Utilisateur créé avec succès: $($user.Username)" -ForegroundColor Green
+        Write-Host "✅ $upn created" -ForegroundColor Green
+        $successCount++
     }
     catch {
-        Write-Host "Erreur lors de la création de $($user.Username): $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "❌ $upn : $($_.Exception.Message)" -ForegroundColor Red
+        $errorCount++
     }
 }
 
-# Déconnexion
-#Disconnect-MgGraph
-
-Write-Host "Script terminé!" -ForegroundColor Cyan
+# Disconnect
+Disconnect-MgGraph | Out-Null
