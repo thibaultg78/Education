@@ -33,4 +33,3 @@ jobs:
           Connect-MgGraph -TenantId $env:AZURE_TENANT_ID -ClientSecretCredential $credential -NoWelcome
           
           ./SDV/Microsoft-365/Accounts-Creation/1-Create-Test-Accounts.ps1
-          if ($LASTEXITCODE -and $LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
