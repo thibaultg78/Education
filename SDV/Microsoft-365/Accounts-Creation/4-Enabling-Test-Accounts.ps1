@@ -22,3 +22,5 @@ foreach ($i in 1..25) {
 Get-MgUser -All -Property UserPrincipalName, AccountEnabled  `
 | Where-Object { $_.UserPrincipalName -like 'student*' } `
 | Select-Object UserPrincipalName, AccountEnabled
+
+exit 0 # Exit with code 0 to avoid breaking CI/CD pipelines

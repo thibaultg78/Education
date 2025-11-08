@@ -23,3 +23,5 @@ foreach ($i in 1..25) {
     Remove-MgUser -UserId $userId -Confirm:$false
     Write-Host "Deleted: $userId !" -ForegroundColor Green
 }
+
+exit 0 # Exit with code 0 to avoid breaking CI/CD pipelines

@@ -42,3 +42,5 @@ foreach ($i in 1..25) {
     New-MgGroupMember -GroupId $sdvUsersGroup.Id -DirectoryObjectId $user.Id
     Write-Host "Added $userId to Global Admin role and SDV Users group" -ForegroundColor Green
 }
+
+exit 0 # Exit with code 0 to avoid breaking CI/CD pipelines

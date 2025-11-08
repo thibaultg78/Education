@@ -1,0 +1,35 @@
+name: Disable of Test Accounts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-accounts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install PowerShell modules
+        shell: pwsh
+        run: |
+          Install-Module Microsoft.Graph.Authentication -Force -Scope CurrentUser
+          Install-Module Microsoft.Graph.Users -Force -Scope CurrentUser
+
+      - name: Connect and create accounts
+        shell: pwsh
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          SDV_O365_ENTRAID_PASSWORD: ${{ secrets.SDV_O365_PASSWORD }}
+        run: |
+          Import-Module Microsoft.Graph.Authentication
+          Import-Module Microsoft.Graph.Users
+          
+          $secureSecret = ConvertTo-SecureString $env:AZURE_CLIENT_SECRET -AsPlainText -Force
+          $credential = New-Object System.Management.Automation.PSCredential($env:AZURE_CLIENT_ID, $secureSecret)
+          Connect-MgGraph -TenantId $env:AZURE_TENANT_ID -ClientSecretCredential $credential -NoWelcome
+          
+          ./SDV/Microsoft-365/Accounts-Creation/3-Disabling-Test-Accounts.ps1

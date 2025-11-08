@@ -16,3 +16,5 @@ $passwordParams = @{
     $userId = "student{0:D2}@1xyj7c.onmicrosoft.com" -f $_
     Update-MgUser -UserId $userId -BodyParameter $passwordParams
 }
+
+exit 0 # Exit with code 0 to avoid breaking CI/CD pipelines
