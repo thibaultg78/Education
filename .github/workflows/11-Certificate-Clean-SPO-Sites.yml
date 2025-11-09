@@ -28,24 +28,9 @@ jobs:
           
           Write-Host "Connecting to SharePoint..." -ForegroundColor Cyan
           $certPassword = ConvertTo-SecureString $env:SPO_CERT_PASSWORD -AsPlainText -Force
-          Connect-SPOService -Url "https://1xyj7c-admin.sharepoint.com" `
-            -ClientId $env:AZURE_CLIENT_ID `
-            -CertificatePath "$env:TEMP\spo-cert.pfx" `
-            -CertificatePassword $certPassword
+          Connect-SPOService -Url "https://1xyj7c-admin.sharepoint.com" -ClientId $env:AZURE_CLIENT_ID -CertificatePath "$env:TEMP\spo-cert.pfx" -CertificatePassword $certPassword
           
-          $protectedSites = @(
-            "https://1xyj7c.sharepoint.com/sites/allcompany",
-            "https://1xyj7c.sharepoint.com/sites/appcatalog",
-            "https://1xyj7c.sharepoint.com",
-            "https://1xyj7c.sharepoint.com/sites/wcontosoteam",
-            "https://1xyj7c.sharepoint.com/sites/DigitalInitiativePublicRelations2",
-            "https://1xyj7c.sharepoint.com/sites/wgive",
-            "https://1xyj7c.sharepoint.com/sites/wlive",
-            "https://1xyj7c.sharepoint.com/sites/MSFT",
-            "https://1xyj7c.sharepoint.com/sites/SalesandMarketing",
-            "https://1xyj7c.sharepoint.com/sites/U.S.Sales",
-            "https://1xyj7c.sharepoint.com/sites/work"
-          )
+          $protectedSites = @("https://1xyj7c.sharepoint.com/sites/allcompany", "https://1xyj7c.sharepoint.com/sites/appcatalog", "https://1xyj7c.sharepoint.com", "https://1xyj7c.sharepoint.com/sites/wcontosoteam", "https://1xyj7c.sharepoint.com/sites/DigitalInitiativePublicRelations2", "https://1xyj7c.sharepoint.com/sites/wgive", "https://1xyj7c.sharepoint.com/sites/wlive", "https://1xyj7c.sharepoint.com/sites/MSFT", "https://1xyj7c.sharepoint.com/sites/SalesandMarketing", "https://1xyj7c.sharepoint.com/sites/U.S.Sales", "https://1xyj7c.sharepoint.com/sites/work")
           
           Write-Host "`nGetting all sites..." -ForegroundColor Cyan
           $allSites = Get-SPOSite -Limit All
@@ -53,10 +38,21 @@ jobs:
           $keptCount = 0
           
           foreach ($site in $allSites) {
-            if ($site.Url -eq "https://1xyj7c.sharepoint.com") {
-              Write-Host "⏭️  Skipping root site" -ForegroundColor Gray
-              continue
+            if ($site.Url -eq "https://1xyj7c.sharepoint.com") { continue }
+            if ($protectedSites -contains $site.Url) { 
+              Write-Host "Keeping: $($site.Url)" -ForegroundColor Cyan
+              $keptCount++ 
+            } else {
+              Write-Host "Deleting: $($site.Url)" -ForegroundColor Yellow
+              Remove-SPOSite -Identity $site.Url -Confirm:$false
+              $deletedCount++
             }
-            
-            if ($protectedSites -contains $site.Url) {
-              Write-Host "⏭️  Keeping: $($site.Url)" -Foregro
+          }
+          
+          Write-Host "`nEmptying recycle bin..." -ForegroundColor Cyan
+          $deletedSites = Get-SPODeletedSite
+          foreach ($site in $deletedSites) {
+            Remove-SPODeletedSite -Identity $site.Url -Confirm:$false
+          }
+          
+          Write-Host "`nDeleted: $deletedCount | Kept: $keptCount" -ForegroundColor Green
