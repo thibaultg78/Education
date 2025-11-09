@@ -1,4 +1,4 @@
-name: Clean SharePoint Sites (Certificate Authentication)
+name: Clean SharePoint Sites (Certificate)
 
 on:
   workflow_dispatch:
@@ -11,30 +11,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install modules
-        shell: pwsh
-        run: |
-          Install-Module Microsoft.Online.SharePoint.PowerShell -Force -AllowClobber
-          Import-Module Microsoft.Online.SharePoint.PowerShell
-          Write-Host "✅ Module installed and imported"
-
-      - name: Decode certificate
-        shell: pwsh
-        env:
-          SPO_CERT_BASE64: ${{ secrets.SPO_CERTIFICATE_BASE64 }}
-        run: |
-          $bytes = [Convert]::FromBase64String($env:SPO_CERT_BASE64)
-          [IO.File]::WriteAllBytes("$env:TEMP\spo-cert.pfx", $bytes)
-          Write-Host "✅ Certificate decoded to $env:TEMP\spo-cert.pfx"
-
-      - name: Clean SharePoint sites
+      - name: Install module, connect and clean
         shell: pwsh
         env:
           AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
           SPO_CERT_PASSWORD: ${{ secrets.SPO_CERTIFICATE_PASSWORD }}
+          SPO_CERT_BASE64: ${{ secrets.SPO_CERTIFICATE_BASE64 }}
         run: |
-          $certPassword = ConvertTo-SecureString $env:SPO_CERT_PASSWORD -AsPlainText -Force
+          Write-Host "Installing module..." -ForegroundColor Cyan
+          Install-Module Microsoft.Online.SharePoint.PowerShell -Force -AllowClobber
+          Import-Module Microsoft.Online.SharePoint.PowerShell -Force
           
+          Write-Host "Decoding certificate..." -ForegroundColor Cyan
+          $bytes = [Convert]::FromBase64String($env:SPO_CERT_BASE64)
+          [IO.File]::WriteAllBytes("$env:TEMP\spo-cert.pfx", $bytes)
+          
+          Write-Host "Connecting to SharePoint..." -ForegroundColor Cyan
+          $certPassword = ConvertTo-SecureString $env:SPO_CERT_PASSWORD -AsPlainText -Force
           Connect-SPOService -Url "https://1xyj7c-admin.sharepoint.com" `
             -ClientId $env:AZURE_CLIENT_ID `
             -CertificatePath "$env:TEMP\spo-cert.pfx" `
@@ -54,7 +47,7 @@ jobs:
             "https://1xyj7c.sharepoint.com/sites/work"
           )
           
-          Write-Host "Getting all sites..." -ForegroundColor Cyan
+          Write-Host "`nGetting all sites..." -ForegroundColor Cyan
           $allSites = Get-SPOSite -Limit All
           $deletedCount = 0
           $keptCount = 0
@@ -66,25 +59,4 @@ jobs:
             }
             
             if ($protectedSites -contains $site.Url) {
-              Write-Host "⏭️  Keeping: $($site.Url)" -ForegroundColor Cyan
-              $keptCount++
-            }
-            else {
-              Write-Host "Deleting: $($site.Url)" -ForegroundColor Yellow
-              Remove-SPOSite -Identity $site.Url -Confirm:$false
-              Write-Host "✅ Deleted: $($site.Url)" -ForegroundColor Green
-              $deletedCount++
-            }
-          }
-          
-          Write-Host "`nEmptying recycle bin..." -ForegroundColor Cyan
-          $deletedSites = Get-SPODeletedSite
-          foreach ($site in $deletedSites) {
-            Write-Host "Permanently deleting: $($site.Url)" -ForegroundColor Yellow
-            Remove-SPODeletedSite -Identity $site.Url -Confirm:$false
-            Write-Host "✅ Permanently deleted" -ForegroundColor Green
-          }
-          
-          Write-Host "`n✅ All done!" -ForegroundColor Green
-          Write-Host "  Deleted: $deletedCount" -ForegroundColor Green
-          Write-Host "  Kept: $keptCount" -ForegroundColor Cyan
+              Write-Host "⏭️  Keeping: $($site.Url)" -Foregro
