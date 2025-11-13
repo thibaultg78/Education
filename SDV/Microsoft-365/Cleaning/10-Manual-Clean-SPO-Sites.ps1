@@ -58,6 +58,7 @@ foreach ($site in $allSites) {
     }
 }
 
+# Empty recycle bin
 Write-Host "`nEmptying recycle bin..." -ForegroundColor Cyan
 $deletedSites = Get-SPODeletedSite
 
