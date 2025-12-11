@@ -1,3 +1,4 @@
+
 <#
 .SYNOPSIS
     Generate multiple Azure VMs for SDV Labs.
@@ -43,8 +44,8 @@ $Location = "West Europe"
 
 # VM Configuration
 $VMs = @(
-    <#@{ Name = "SDV-VM00"; VNet = "SDV-VM00-vnet"; Subnet = "SDV-VM00-subnet"; PrivateIP = "10.0.0.4" }#>
-    @{ Name = "SDV-VM01"; VNet = "SDV-VM01-vnet"; Subnet = "SDV-VM01-subnet"; PrivateIP = "10.0.0.4" },
+    @{ Name = "SDV-VM00"; VNet = "SDV-VM00-vnet"; Subnet = "SDV-VM00-subnet"; PrivateIP = "10.0.0.4" }
+    <#@{ Name = "SDV-VM01"; VNet = "SDV-VM01-vnet"; Subnet = "SDV-VM01-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM02"; VNet = "SDV-VM02-vnet"; Subnet = "SDV-VM02-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM03"; VNet = "SDV-VM03-vnet"; Subnet = "SDV-VM03-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM04"; VNet = "SDV-VM04-vnet"; Subnet = "SDV-VM04-subnet"; PrivateIP = "10.0.0.4" },
@@ -53,9 +54,9 @@ $VMs = @(
     @{ Name = "SDV-VM07"; VNet = "SDV-VM07-vnet"; Subnet = "SDV-VM07-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM08"; VNet = "SDV-VM08-vnet"; Subnet = "SDV-VM08-subnet"; PrivateIP = "10.0.0.4" },
     @{ Name = "SDV-VM09"; VNet = "SDV-VM09-vnet"; Subnet = "SDV-VM09-subnet"; PrivateIP = "10.0.0.4" },
-    @{ Name = "SDV-VM10"; VNet = "SDV-VM10-vnet"; Subnet = "SDV-VM10-subnet"; PrivateIP = "10.0.0.4" },
+    @{ Name = "SDV-VM10"; VNet = "SDV-VM10-vnet"; Subnet = "SDV-VM10-subnet"; PrivateIP = "10.0.0.4" }
     @{ Name = "SDV-VM11"; VNet = "SDV-VM11-vnet"; Subnet = "SDV-VM11-subnet"; PrivateIP = "10.0.0.4" },
-    @{ Name = "SDV-VM12"; VNet = "SDV-VM12-vnet"; Subnet = "SDV-VM12-subnet"; PrivateIP = "10.0.0.4" }
+    @{ Name = "SDV-VM12"; VNet = "SDV-VM12-vnet"; Subnet = "SDV-VM12-subnet"; PrivateIP = "10.0.0.4" }#>
 )
 
 # Windows Server configuration
