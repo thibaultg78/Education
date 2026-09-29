@@ -13,9 +13,21 @@ Clear-Host
 # Start of Connection to M365 with Managed Identity
 ################################################################################################################
 
-# Verify required environment variables
-# Check OneNote to load manually the variables in Powershell environment if not executed by GitHub Actions
 $requiredVars = @('AZURE_TENANT_ID', 'AZURE_CLIENT_ID', 'AZURE_CLIENT_SECRET', 'SDV_O365_ENTRAID_PASSWORD')
+$envFile = Join-Path $PSScriptRoot '../../../.env'
+if (Test-Path -LiteralPath $envFile) {
+    Get-Content -LiteralPath $envFile | ForEach-Object {
+        if ($_ -match '^\s*(?<name>[A-Z][A-Z0-9_]*)=(?<value>.*)$') {
+            $name = $Matches.name
+            $value = $Matches.value
+            if ($name -in $requiredVars -and $value -and -not (Get-Item "env:$name" -ErrorAction SilentlyContinue)) {
+                [Environment]::SetEnvironmentVariable($name, $value)
+            }
+        }
+    }
+}
+
+# Verify required environment variables
 $missingVars = @()
 
 foreach ($var in $requiredVars) {
