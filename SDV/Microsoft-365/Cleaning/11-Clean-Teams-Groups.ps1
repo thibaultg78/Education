@@ -3,10 +3,10 @@
     Clean all the configuration that has been done by the Students during the M365 Labs for Sup de Vinci
 #>
 
-# Install-Module -Name MicrosoftTeams # Module Installation
-# Import-Module MicrosoftTeams # Module Import
+Install-Module -Name MicrosoftTeams # Module Installation
+Import-Module MicrosoftTeams # Module Import
 
-#Connect-MicrosoftTeams
+Connect-MicrosoftTeams
 
 $teamsAGarder = @("Digital Initiative Public Relations", "Sales and Marketing", "Retail", "U.S. Sales", "MSFT")
 

@@ -9,8 +9,8 @@
 #>
 
 # Install SharePoint Online module
-Write-Host "Installing SharePoint Online module..." -ForegroundColor Cyan
-Install-Module -Name Microsoft.Online.SharePoint.PowerShell -Force -AllowClobber
+#Write-Host "Installing SharePoint Online module..." -ForegroundColor Cyan
+#Install-Module -Name Microsoft.Online.SharePoint.PowerShell -Force -AllowClobber
 Import-Module Microsoft.Online.SharePoint.PowerShell
 
 # Connect to SharePoint Online
