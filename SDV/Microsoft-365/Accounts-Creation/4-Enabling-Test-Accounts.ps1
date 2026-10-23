@@ -12,7 +12,7 @@ $domain = "1xyj7c.onmicrosoft.com"
 $params = @{
     accountEnabled = $true
 }
-foreach ($i in 1..25) {
+foreach ($i in 1..30) {
     $userId = "student{0:D2}@$domain" -f $i
     Update-MgUser -UserId $userId -BodyParameter $params
     Write-Host "Enabling: $userId"

@@ -68,7 +68,7 @@ $Version = "latest"
 
 # Identifiants d'administration (à sécuriser)
 $AdminUsername = "student"
-$AdminPassword = ConvertTo-SecureString "SDVCouCou123456_" -AsPlainText -Force
+$AdminPassword = ConvertTo-SecureString "TempSDVCouCou123456_" -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential ($AdminUsername, $AdminPassword)
 
 foreach ($VM in $VMs) {
