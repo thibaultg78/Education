@@ -8,7 +8,7 @@ Clear-Host
 # Update password for all student accounts
 $passwordParams = @{
     passwordProfile = @{
-        password                      = "SDVPwdTemp123456?"
+        password                      = "SDVPasswordCouCou123!"
         forceChangePasswordNextSignIn = $false
     }
 }

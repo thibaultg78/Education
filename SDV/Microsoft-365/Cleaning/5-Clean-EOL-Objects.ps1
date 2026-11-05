@@ -6,7 +6,7 @@
 # Install-Module -Name ExchangeOnlineManagement
 
 # Connect to Exchange Online
-# Connect-ExchangeOnline
+# Connect-ExchangeOnline -devicecode
 
 # Removing all Mail Contacts except specific one
 $contactAGarder = "thibault.gibard@devoteam.com"

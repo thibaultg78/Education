@@ -23,12 +23,12 @@
 $ResourceGroupName = "RG-Thibault-Gibard"
 $VMNames = @(
     "SDV-VM00",
-    <#"SDV-VM01",
-	"SDV-VM02",
-	"SDV-VM03",
-	"SDV-VM04",
-	"SDV-VM05",
-	"SDV-VM06",#>
+    "SDV-VM01",
+    "SDV-VM02",
+    "SDV-VM03",
+    "SDV-VM04",
+    "SDV-VM05",
+    "SDV-VM06",
     "SDV-VM07",
     "SDV-VM08"
 )
